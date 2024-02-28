@@ -10,7 +10,7 @@ const bcrypt = require("bcryptjs")
 
 
 const addRole = async (req, res) => {
-    const role = await addRoleQuery(req)
+    const role = await addRoleQuery(req,res)
     return res.status(200).json({ role })
 }
 
@@ -27,7 +27,7 @@ const login = async (req, res) => {
     res.send(result)
 }
 const logout = async (req, res) => {
-    // console.log(req.userDetails.email);
+    
     const result = await logoutQuery(req)
     res.json({
         msg: "logout successfully",
@@ -106,9 +106,9 @@ const changePassword = async (req, res) => {
         where: { code: req.body.otp }
     })
     // 
-    data.destroy();
     let response = {};
     if (data != null) {
+        data.destroy();
 
         let result = await models.user.findOne({
             where: { email: req.body.email }

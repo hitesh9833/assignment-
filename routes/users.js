@@ -15,9 +15,9 @@ router.post('/login', wrapper(login))
 router.post("/forgot-password", wrapper(emailSend))
 router.post('/changePassword', wrapper(changePassword))
 router.delete('/logout', verifyToken, wrapper(logout))
-router.post("/resume", verifyToken, checkPermission, wrapper(uploadResume));
-router.get('/register/user', verifyToken, checkPermission, wrapper(getAllRegisterUser))
-router.get('/read-resume', verifyToken, checkPermission, wrapper(readResume))
-router.delete('/remove-file/', verifyToken, checkPermission, wrapper(removeFile))  //admin
-router.get('/file-list', verifyToken, checkPermission, wrapper(getFileList))   // admin 
+router.post("/resume", verifyToken, wrapper(uploadResume));
+router.get('/register/user', verifyToken, wrapper(getAllRegisterUser))
+router.get('/read-resume', verifyToken, wrapper(readResume))
+router.delete('/remove-file/', verifyToken, wrapper(removeFile))  //admin
+router.get('/file-list', verifyToken, wrapper(getFileList))   // admin 
 module.exports = router;

@@ -11,7 +11,7 @@ const { QueryTypes } = require("sequelize");
 const { query } = require("express")
 const Op = Sequelize.Op
 
-const addRoleQuery = async (req) => {
+const addRoleQuery = async (req,res) => {
     const { roleName, description } = req.body
     if (req.query.raw == "query") {
         const roleExists = await models.sequelize.query(`SELECT 
@@ -22,17 +22,17 @@ const addRoleQuery = async (req) => {
              `, {
             type: QueryTypes.SELECT
         })
-        if (roleExists.length == 0) { return "role already exists" }
+        if (roleExists.length == 0) { return { message:"role already exists"} }
         else {
-            const role = models.sequelize.query(`INSERT INTO "role" ("role_name","description")
-            VALUES ('${roleName}','${description}')`)
+            const role = models.sequelize.query(`INSERT INTO "role" ("role_name","description", "createdAt", "updatedAt") VALUES ('
+            VALUES ('${roleName}','${description}',${1},${1})`)
             return role
         }
     }
     else {
         const roleExists = await models.role.findOne({ where: { roleName: roleName } })
-        if (roleExists) return res.status(400).json({ message: "Role already exists" })
-        const role = await models.role.create({ roleName, description })
+        if (roleExists) {return { message: "Role already exists" }}
+        const role = await models.role.create({ roleName, description,createdBy:1,updatedBy:1 })
         return role
     }
 }
@@ -46,7 +46,7 @@ const registerQuery = async (req) => {
             return "user already Exists"
         }
         else {
-            const result = await models.sequelize.query(`INSERT INTO "user" ("name","email","mobilenumber","password","roleId","is_active")
+            const result = await models.sequelize.query(`INSERT INTO "user" ("name","email","mobilenumber","password","roleId","isActive")
             VALUES ('${name}','${email}','${mobilenumber}','${password}',${2},'${true}')`)
             return result
         }
@@ -60,7 +60,7 @@ const registerQuery = async (req) => {
             return "User already Exists"
         }
         else {
-            const result = await models.user.create({ name, email, mobilenumber, password, roleId: 2, is_active: true })
+            const result = await models.user.create({ name, email, mobilenumber, password, roleId: 2, isActive: true })
             return result
         }
     }

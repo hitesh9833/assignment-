@@ -26,11 +26,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       field: "file_name"
     },
-    roleId: {
-      type: Sequelize.INTEGER,
-      field: "role_id"
-    },
-    is_active: {
+    isActive: {
       type: Sequelize.BOOLEAN
     }
   }, {
@@ -41,7 +37,7 @@ module.exports = (sequelize, Sequelize) => {
 
   //associations
   User.associate = function (models) {
-    User.belongsTo(models.role, { foreignKey: 'roleId' });
+    User.belongsToMany(models.role, { through: models.userRole });
   }
 
 

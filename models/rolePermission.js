@@ -3,15 +3,12 @@ module.exports = (sequelize, DataTypes) => {
         // attributes
         roleId: {
             type: DataTypes.INTEGER,
-            field: 'role_id'
         },
         permissionId: {
             type: DataTypes.INTEGER,
-            field: 'permission_id'
         },
         isActive: {
             type: DataTypes.BOOLEAN,
-            field: 'is_active',
             defaultValue: true,
         }
     }, {
@@ -20,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'role_permission'
     });
 
-    RolePermission.associate = function (models) {
+    RolePermission.associate = function(models) {
         RolePermission.belongsTo(models.role, { foreignKey: 'roleId', as: 'role' });
         RolePermission.belongsTo(models.permission, { foreignKey: 'permissionId', as: 'permission' });
     }
-
+    
     return RolePermission;
 }

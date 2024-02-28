@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const ErrorLogger = sequelize.define('errorLogger', {
-        messsage: {
+        message: {
             type: DataTypes.TEXT
         },
         url: {
